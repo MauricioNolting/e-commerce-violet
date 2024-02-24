@@ -90,7 +90,6 @@ function cargarProductos(productosElegidos) {
   contenedorProductos.innerHTML = "";
 
   productosElegidos.forEach((p) => {
-    tituloPrincipal.innerHTML = producto.categoria.nombre;
     const div = document.createElement("div");
     div.classList.add("producto");
     div.innerHTML = `<div class="productos">
@@ -118,13 +117,17 @@ botonesCategorias.forEach((boton) => {
     e.currentTarget.classList.add("active");
 
     if (e.currentTarget.id !== "todos") {
+      const productoCategoria = productos.find(
+        (producto) => producto.categoria.id === e.currentTarget.id
+      );
+      tituloPrincipal.innerText = productoCategoria.categoria.nombre;
       const productosBoton = productos.filter(
         (producto) => producto.categoria.id === e.currentTarget.id
       );
 
       cargarProductos(productosBoton);
     } else {
-      tituloPrincipal.innerHTML = "Todos los productos";
+      tituloPrincipal.innerText = "Todos los productos";
       cargarProductos(productos);
     }
   });
