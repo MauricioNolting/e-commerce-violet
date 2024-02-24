@@ -72,7 +72,7 @@ const productos = [
     id: "pantalon-02",
     titulo: "Pantalón 02",
     imagen:
-      "https://www.bolf.es/spa_pl_Pantalon-jogger-cargo-para-hombre-negro-Bolf-CT6703-79850_8.jpg2",
+      "https://th.bing.com/th/id/OIP.2pr22xYxff3387Iss3Yo4QAAAA?w=413&h=550&rs=1&pid=ImgDetMain",
     categoria: {
       nombre: "Pantalones",
       id: "pantalones",
@@ -83,30 +83,49 @@ const productos = [
 ];
 
 const contenedorProductos = document.querySelector("#contenedor-productos");
+const botonesCategorias = document.querySelectorAll(".boton-categoria");
+const tituloPrincipal = document.querySelector("#titulo-principal");
 
-function cargarProductos() {
-  productos.forEach((p) => {
+function cargarProductos(productosElegidos) {
+  contenedorProductos.innerHTML = "";
+
+  productosElegidos.forEach((p) => {
+    tituloPrincipal.innerHTML = producto.categoria.nombre;
     const div = document.createElement("div");
     div.classList.add("producto");
     div.innerHTML = `<div class="productos">
-        <img class="producto-imagen" src="${p.imagen}">
+        <img class="producto-imagen" src="${p.imagen}" alt="${p.titulo}">
         <div class="producto-detalles">
-            <h3 class="${p.titulo}">${p.categoria.nombre}</h3>
+            <h3 class="${p.titulo}">${p.titulo}</h3>
             <p class="producto-precio">${p.precio}</p>
-            <button class="btn-producto-agregar">Agregar</button>
+            <button class="btn-producto-agregar" id="${p.id}">Agregar</button>
         </div>
         </div>`;
+
+    contenedorProductos.append(div);
   });
 }
 
-/*
+cargarProductos(productos);
 
-<div class="productos">
-<img class="producto-imagen" src="./imagenes/camperas/campera3.png">
-<div class="producto-detalles">
-    <h3 class="producto-titulo">Campera negra</h3>
-    <p class="producto-precio">$1000</p>
-    <button class="btn-producto-agregar">Agregar</button>
-</div>
-</div>
-*/
+botonesCategorias.forEach((boton) => {
+  boton.addEventListener("click", (e) => {
+    //forEach para elminar todos los active, asi se elimina el anterior cuando se agrega uno nuevo
+    botonesCategorias.forEach((b) => {
+      b.classList.remove("active");
+    });
+    //agregar al elemento clickeado la clase active
+    e.currentTarget.classList.add("active");
+
+    if (e.currentTarget.id !== "todos") {
+      const productosBoton = productos.filter(
+        (producto) => producto.categoria.id === e.currentTarget.id
+      );
+
+      cargarProductos(productosBoton);
+    } else {
+      tituloPrincipal.innerHTML = "Todos los productos";
+      cargarProductos(productos);
+    }
+  });
+});

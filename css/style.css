@@ -76,8 +76,10 @@ main {
     gap: 1rem;
 }
 
+
 .producto-imagen {
-    max-width: 100%;
+    width: 212.48px;
+    height: 250px;
     border-radius: 1rem;
 }
 
@@ -133,12 +135,12 @@ main {
     padding: 1rem;
     font-size: .90rem;
     align-items: center;
+    width: 100%;
 }
 
 .boton-menu.active {
     background-color: var(--clr-white);
     color: var(--clr-main);
-    width: 100%;
     border-radius: 1rem 0 0 1rem;
     position: relative;
 }
