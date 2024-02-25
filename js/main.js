@@ -79,15 +79,16 @@ const productos = [
     },
     precio: 1000,
   },
-  // Continúa con el resto de los productos
 ];
 
 const contenedorProductos = document.querySelector("#contenedor-productos");
 const botonesCategorias = document.querySelectorAll(".boton-categoria");
 const tituloPrincipal = document.querySelector("#titulo-principal");
+let productoAgregar = document.querySelectorAll(".btn-producto-agregar");
+let numeritoCarrito = document.querySelector(".numerito");
 
 function cargarProductos(productosElegidos) {
-  contenedorProductos.innerHTML = "";
+  contenedorProductos.innerText = "";
 
   productosElegidos.forEach((p) => {
     const div = document.createElement("div");
@@ -103,6 +104,7 @@ function cargarProductos(productosElegidos) {
 
     contenedorProductos.append(div);
   });
+  actualizarBotonesAgregar();
 }
 
 cargarProductos(productos);
@@ -132,3 +134,55 @@ botonesCategorias.forEach((boton) => {
     }
   });
 });
+
+function actualizarBotonesAgregar() {
+  productoAgregar = document.querySelectorAll(".btn-producto-agregar");
+
+  productoAgregar.forEach((e) => {
+    e.addEventListener("click", agregarAlCarrito);
+  });
+}
+
+let productosEnCarrito;
+
+let productosEnCarritoLS = localStorage.getItem("Productos-en-carrito");
+
+if (productosEnCarritoLS) {
+  productosEnCarrito = JSON.parse(productosEnCarritoLS);
+  actualizarNumerito();
+} else {
+  productosEnCarrito = [];
+}
+
+function agregarAlCarrito(e) {
+  const idBoton = e.currentTarget.id;
+  const productoAgregado = productos.find(
+    (producto) => producto.id === idBoton
+  );
+
+  console.log(productosEnCarrito);
+
+  if (productosEnCarrito.some((producto) => producto.id === idBoton)) {
+    productoAgregado.cantidad += 1;
+  } else {
+    productoAgregado.cantidad = 1;
+    productosEnCarrito.push(productoAgregado);
+  }
+  actualizarNumerito();
+
+  localStorage.setItem(
+    "Productos-en-carrito",
+    JSON.stringify(productosEnCarrito)
+  );
+}
+
+function actualizarNumerito() {
+  let numerito = productosEnCarrito.reduce(
+    (acc, producto) => acc + producto.cantidad,
+    0
+  );
+
+  numeritoCarrito.innerText = numerito;
+}
+
+actualizarNumerito();
