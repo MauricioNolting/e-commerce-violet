@@ -75,10 +75,13 @@ main {
     display: grid;
     grid-template-columns: repeat(4, auto);
     gap: 1rem;
+    align-items: center;
 }
 
 .productos {
-    max-width: 300px;
+    min-width: 200px;
+    max-width: 250px;
+    margin: 0 auto 0 auto;
 }
 
 
@@ -408,7 +411,7 @@ main {
 
 
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
     .contenedor-productos {
         grid-template-columns: 1fr;
     }
